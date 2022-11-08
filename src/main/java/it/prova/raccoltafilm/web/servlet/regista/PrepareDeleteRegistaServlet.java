@@ -1,7 +1,6 @@
-package it.prova.raccoltafilm.web.servlet.film;
+package it.prova.raccoltafilm.web.servlet.regista;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,42 +10,45 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.raccoltafilm.model.Film;
+import it.prova.raccoltafilm.model.Regista;
 import it.prova.raccoltafilm.service.FilmService;
 import it.prova.raccoltafilm.service.MyServiceFactory;
+import it.prova.raccoltafilm.service.RegistaService;
 
-@WebServlet("/PrepareDeleteFilmServlet")
-public class PrepareDeleteFilmServlet extends HttpServlet {
+/**
+ * Servlet implementation class PrepareDeleteRegistaServlet
+ */
+@WebServlet("/admin/PrepareDeleteRegistaServlet")
+public class PrepareDeleteRegistaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	// injection del Service
-	private FilmService filmService;
+	private RegistaService registaService;
 
-	public PrepareDeleteFilmServlet() {
-		this.filmService = MyServiceFactory.getFilmServiceInstance();
+	public PrepareDeleteRegistaServlet() {
+		this.registaService = MyServiceFactory.getRegistaServiceInstance();
 	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String idFilmParam = request.getParameter("idFilm");
-
-		if (!NumberUtils.isCreatable(idFilmParam)) {
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idRegistaParam=request.getParameter("idRegista");
+		
+		if (!NumberUtils.isCreatable(idRegistaParam)) {
 			// qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			request.setAttribute("errorMessage", "Attenzione si è verificato un errore.");
 			request.getRequestDispatcher("home").forward(request, response);
 			return;
 		}
-
+		
 		try {
-			Film filmInstance = filmService.caricaSingoloElementoEager(Long.parseLong(idFilmParam));
+			Regista registaInstance = registaService.caricaSingoloElemento(Long.parseLong(idRegistaParam));
 
-			if (filmInstance == null) {
+			if (registaInstance == null) {
 				request.setAttribute("errorMessage", "Elemento non trovato.");
-				request.getRequestDispatcher("ExecuteListFilmServlet?operationResult=NOT_FOUND").forward(request,
+				request.getRequestDispatcher("ExecuteListRegistaServlet?operationResult=NOT_FOUND").forward(request,
 						response);
 				return;
 			}
-
-			request.setAttribute("delete_film_attr", filmInstance);
+			request.setAttribute("delete_regista_attr", registaInstance);
 		} catch (Exception e) {
 			// qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			e.printStackTrace();
@@ -54,7 +56,7 @@ public class PrepareDeleteFilmServlet extends HttpServlet {
 			request.getRequestDispatcher("home").forward(request, response);
 			return;
 		}
-
-		request.getRequestDispatcher("/film/delete.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("/regista/delete.jsp").forward(request, response);
 	}
 }

@@ -36,8 +36,10 @@ public class FilmDAOImpl implements FilmDAO {
 
 	@Override
 	public void update(Film filmInstance) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (filmInstance == null) {
+			throw new Exception("Problema valore in input");
+		}
+		entityManager.merge(filmInstance);
 	}
 
 	@Override

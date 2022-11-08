@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import it.prova.raccoltafilm.dao.RegistaDAO;
+import it.prova.raccoltafilm.exceptions.ElementNotFoundException;
+import it.prova.raccoltafilm.exceptions.RegistaHaFigliException;
+import it.prova.raccoltafilm.model.Film;
 import it.prova.raccoltafilm.model.Regista;
 import it.prova.raccoltafilm.web.listener.LocalEntityManagerFactoryListener;
 
@@ -59,14 +62,44 @@ public class RegistaServiceImpl implements RegistaService {
 
 	@Override
 	public Regista caricaSingoloElementoConFilms(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			registaDAO.setEntityManager(entityManager);
+
+			return registaDAO.findOneEagerFilm(id).orElse(null); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
 	}
 
 	@Override
 	public void aggiorna(Regista registaInstance) throws Exception {
-		// TODO Auto-generated method stub
+		// questo è come una connection
+				EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
 
+				try {
+					// questo è come il MyConnection.getConnection()
+					entityManager.getTransaction().begin();
+
+					// uso l'injection per il dao
+					registaDAO.setEntityManager(entityManager);
+
+					// eseguo quello che realmente devo fare
+					registaDAO.update(registaInstance);
+
+					entityManager.getTransaction().commit();
+				} catch (Exception e) {
+					entityManager.getTransaction().rollback();
+					e.printStackTrace();
+					throw e;
+				} finally {
+					LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+				}
 	}
 
 	@Override
@@ -96,8 +129,27 @@ public class RegistaServiceImpl implements RegistaService {
 
 	@Override
 	public void rimuovi(Long idRegista) throws Exception {
-		// TODO Auto-generated method stub
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
 
+		try {
+			entityManager.getTransaction().begin();
+
+			registaDAO.setEntityManager(entityManager);
+
+			Regista registaProva = registaDAO.findOneEagerFilm(idRegista).get();
+			
+			if(registaProva.getFilms().size()>0)
+				throw new RegistaHaFigliException("Regista con " + idRegista + " ha dei film");
+			
+			registaDAO.delete(registaProva);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
 	}
 
 	@Override

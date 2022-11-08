@@ -25,6 +25,12 @@
 				  ${successMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
 				</div>
+				
+				<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none':'' }" role="alert">
+				  ${errorMessage}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
+				
 				<div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
 				  Esempio di operazione fallita!
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
@@ -41,7 +47,7 @@
 				        <h5>Lista dei risultati</h5> 
 				    </div>
 				    <div class='card-body'>
-				    	<a class="btn btn-primary " href="PrepareInsertRegistaServlet">Add New</a>
+				    	<a class="btn btn-primary " href="${pageContext.request.contextPath }/PrepareInsertRegistaServlet">Add New</a>
 				    
 				        <div class='table-responsive'>
 				            <table class='table table-striped ' >
@@ -64,9 +70,9 @@
 											<td><fmt:formatDate type = "date" value = "${registaItem.dataDiNascita }" /></td>
 											<td>${registaItem.sesso.abbreviazione }</td>
 											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="ExecuteVisualizzaRegistaServlet?idRegista=${registaItem.id }">Visualizza</a>
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateRegistaServlet?idRegista=${registaItem.id}">Edit</a>
-												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/admin/PrepareDeleteRegistaServlet?idRegista=${item.id}">Delete</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/ExecuteVisualizzaRegistaServlet?idRegista=${registaItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/PrepareUpdateRegistaServlet?idRegista=${registaItem.id}">Edit</a>
+												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/admin/PrepareDeleteRegistaServlet?idRegista=${registaItem.id}">Delete</a>
 											</td>
 										</tr>
 									</c:forEach>
