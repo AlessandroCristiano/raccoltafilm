@@ -26,6 +26,8 @@ public interface UtenteService  {
 	public Utente accedi(String username, String password) throws Exception;
 	
 	public List<Utente> findByExample(Utente example) throws Exception;
+	
+	public Utente caricaUtenteEager(Long id) throws Exception;
 
 	//per injection
 	public void setUtenteDAO(UtenteDAO utenteDAO);

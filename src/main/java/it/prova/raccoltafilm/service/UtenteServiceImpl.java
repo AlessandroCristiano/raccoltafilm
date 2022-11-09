@@ -213,4 +213,21 @@ public class UtenteServiceImpl implements UtenteService {
 		}
 	}
 
+	@Override
+	public Utente caricaUtenteEager(Long id) throws Exception {
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			utenteDAO.setEntityManager(entityManager);
+
+			return utenteDAO.findOneEager(id).orElse(null); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+
 }

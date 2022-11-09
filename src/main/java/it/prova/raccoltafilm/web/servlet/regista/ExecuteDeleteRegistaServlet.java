@@ -19,7 +19,7 @@ import it.prova.raccoltafilm.service.RuoloService;
 /**
  * Servlet implementation class ExecuteDeleteRegistaServlet
  */
-@WebServlet("/ExecuteDeleteRegistaServlet")
+@WebServlet("/admin/ExecuteDeleteRegistaServlet")
 public class ExecuteDeleteRegistaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -53,7 +53,6 @@ public class ExecuteDeleteRegistaServlet extends HttpServlet {
 			return;
 		}
 
-		response.sendRedirect("ExecuteListRegistaServlet?operationResult=SUCCESS");
-		
+		response.sendRedirect("/raccoltafilm/ExecuteListRegistaServlet?operationResult=SUCCESS");
 	}
 }
