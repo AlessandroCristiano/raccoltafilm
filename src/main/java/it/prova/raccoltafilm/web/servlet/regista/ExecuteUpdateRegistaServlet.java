@@ -11,6 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.raccoltafilm.model.Regista;
 import it.prova.raccoltafilm.service.MyServiceFactory;
+import it.prova.raccoltafilm.service.RegistaService;
 import it.prova.raccoltafilm.utility.UtilityForm;
 
 /**
@@ -20,6 +21,12 @@ import it.prova.raccoltafilm.utility.UtilityForm;
 public class ExecuteUpdateRegistaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	// injection del Service
+	private RegistaService registaService;
+
+	public ExecuteUpdateRegistaServlet() {
+		this.registaService = MyServiceFactory.getRegistaServiceInstance();
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// estraggo input
@@ -47,8 +54,7 @@ public class ExecuteUpdateRegistaServlet extends HttpServlet {
 		// se la validazione non risulta ok
 		if (!UtilityForm.validateRegistaBean(registaInstance)) {
 			try {
-				request.setAttribute("registaDaInviareAPaginaUpdate", MyServiceFactory.getRegistaServiceInstance()
-						.caricaSingoloElemento(Long.parseLong(idRegista)));
+				request.setAttribute("registaDaInviareAPaginaUpdate", registaService.caricaSingoloElemento(Long.parseLong(idRegista)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -58,8 +64,8 @@ public class ExecuteUpdateRegistaServlet extends HttpServlet {
 		}
 		
 		try {
-			MyServiceFactory.getRegistaServiceInstance().aggiorna(registaInstance);
-			request.setAttribute("registi_list_attribute", MyServiceFactory.getRegistaServiceInstance().listAllElements());
+			registaService.aggiorna(registaInstance);
+			request.setAttribute("registi_list_attribute", registaService.listAllElements());
 		}catch(Exception e) {
 			//qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			e.printStackTrace();

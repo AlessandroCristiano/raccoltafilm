@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.raccoltafilm.service.MyServiceFactory;
+import it.prova.raccoltafilm.service.RegistaService;
 
 
 /**
@@ -18,7 +19,13 @@ import it.prova.raccoltafilm.service.MyServiceFactory;
 @WebServlet("/PrepareUpdateRegistaServlet")
 public class PrepareUpdateRegistaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	// injection del Service
+	private RegistaService registaService;
+
+	public PrepareUpdateRegistaServlet() {
+		this.registaService = MyServiceFactory.getRegistaServiceInstance();
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String parametroRegistaDaModificare=request.getParameter("idRegista");
@@ -31,8 +38,8 @@ public class PrepareUpdateRegistaServlet extends HttpServlet {
 		}
 		
 		try {
-			request.setAttribute("registaDaInviareAPaginaUpdate", MyServiceFactory.getRegistaServiceInstance()
-					.caricaSingoloElemento(Long.parseLong(parametroRegistaDaModificare)));
+			request.setAttribute("registaDaInviareAPaginaUpdate", registaService.
+					caricaSingoloElemento(Long.parseLong(parametroRegistaDaModificare)));
 		} catch (Exception e) {
 			// qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			e.printStackTrace();

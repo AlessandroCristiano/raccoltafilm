@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import it.prova.raccoltafilm.service.FilmService;
 import it.prova.raccoltafilm.service.MyServiceFactory;
+import it.prova.raccoltafilm.service.RegistaService;
 
 /**
  * Servlet implementation class PrepareUpdateFilmServlet
@@ -17,6 +19,16 @@ import it.prova.raccoltafilm.service.MyServiceFactory;
 @WebServlet("/PrepareUpdateFilmServlet")
 public class PrepareUpdateFilmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	// injection del Service
+	private FilmService filmService;
+	
+	private RegistaService registaService;
+
+	public PrepareUpdateFilmServlet() {
+		this.filmService = MyServiceFactory.getFilmServiceInstance();
+		this.registaService=MyServiceFactory.getRegistaServiceInstance();
+	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String parametroFilmDaModificare=request.getParameter("idFilm");
@@ -28,11 +40,9 @@ public class PrepareUpdateFilmServlet extends HttpServlet {
 			return;
 		}
 		
-		
 		try {
-			request.setAttribute("filmDaInviareAPaginaUpdate", MyServiceFactory.getFilmServiceInstance()
-					.caricaSingoloElementoEager(Long.parseLong(parametroFilmDaModificare)));
-			request.setAttribute("registi_list_attribute", MyServiceFactory.getRegistaServiceInstance().listAllElements());
+			request.setAttribute("filmDaInviareAPaginaUpdate", filmService.caricaSingoloElementoEager(Long.parseLong(parametroFilmDaModificare)));
+			request.setAttribute("registi_list_attribute", registaService.listAllElements());
 		} catch (Exception e) {
 			// qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			e.printStackTrace();

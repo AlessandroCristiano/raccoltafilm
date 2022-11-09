@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.raccoltafilm.model.Film;
+import it.prova.raccoltafilm.service.FilmService;
 import it.prova.raccoltafilm.service.MyServiceFactory;
 import it.prova.raccoltafilm.utility.UtilityForm;
 
@@ -19,6 +20,13 @@ import it.prova.raccoltafilm.utility.UtilityForm;
 @WebServlet("/ExecuteUpdateFilmServlet")
 public class ExecuteUpdateFilmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	// injection del Service
+	private FilmService filmService;
+
+	public ExecuteUpdateFilmServlet() {
+		this.filmService = MyServiceFactory.getFilmServiceInstance();
+	}
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idFilm= request.getParameter("idFilm");
@@ -46,8 +54,7 @@ public class ExecuteUpdateFilmServlet extends HttpServlet {
 		// se la validazione non risulta ok
 		if (!UtilityForm.validateFilmBean(filmInstance)) {
 			try {
-				request.setAttribute("filmDaInviareAPaginaUpdate", MyServiceFactory.getFilmServiceInstance()
-						.caricaSingoloElementoEager(Long.parseLong(idFilm)));
+				request.setAttribute("filmDaInviareAPaginaUpdate", filmService.caricaSingoloElementoEager(Long.parseLong(idFilm)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -58,7 +65,7 @@ public class ExecuteUpdateFilmServlet extends HttpServlet {
 		
 		try {
 			MyServiceFactory.getFilmServiceInstance().aggiorna(filmInstance);
-			request.setAttribute("film_list_attribute", MyServiceFactory.getFilmServiceInstance().listAllElements());
+			request.setAttribute("film_list_attribute", filmService.listAllElements());
 		}catch(Exception e) {
 			//qui ci andrebbe un messaggio nei file di log costruito ad hoc se fosse attivo
 			e.printStackTrace();
