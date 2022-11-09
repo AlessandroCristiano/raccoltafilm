@@ -10,6 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import it.prova.raccoltafilm.model.Film;
 import it.prova.raccoltafilm.model.Regista;
 import it.prova.raccoltafilm.model.Sesso;
+import it.prova.raccoltafilm.model.Utente;
 
 public class UtilityForm {
 
@@ -72,5 +73,16 @@ public class UtilityForm {
 		} catch (ParseException e) {
 			return null;
 		}
+	}
+	
+	public static boolean validateUtenteBean(Utente utente) {
+		if (StringUtils.isBlank(utente.getNome()) || StringUtils.isBlank(utente.getCognome())
+				|| StringUtils.isBlank(utente.getUsername())
+				|| utente.getDateCreated() == null
+				|| StringUtils.isBlank(utente.getPassword())
+				|| utente.getRuoli().size() == 0) {
+			return false;
+		}
+		return true;
 	}
 }

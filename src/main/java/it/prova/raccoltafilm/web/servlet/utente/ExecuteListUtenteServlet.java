@@ -16,7 +16,7 @@ import it.prova.raccoltafilm.service.UtenteService;
 /**
  * Servlet implementation class ExecuteListUtenteServlet
  */
-@WebServlet("/ExecuteListUtenteServlet")
+@WebServlet("/admin/ExecuteListUtenteServlet")
 public class ExecuteListUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -16,5 +16,4 @@ public class PrepareInsertRegistaServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.getRequestDispatcher("/regista/insert.jsp").forward(request, response);
 	}
-
 }

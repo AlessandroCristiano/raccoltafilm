@@ -30,7 +30,7 @@
 				    </div>
 				    <div class='card-body'>
 		
-							<form method="post" action="${pageContext.request.contextPath }/ExecuteSearchUtenteServlet" class="row g-3" >
+							<form method="post" action="${pageContext.request.contextPath }/admin/ExecuteSearchUtenteServlet" class="row g-3" >
 							
 							
 								<div class="col-md-6">

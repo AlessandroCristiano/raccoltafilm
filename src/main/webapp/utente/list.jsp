@@ -48,7 +48,7 @@
 				        <h5>Lista dei risultati</h5> 
 				    </div>
 				    <div class='card-body'>
-				    	<a class="btn btn-primary " href="${pageContext.request.contextPath }/PrepareInsertUtenteServlet">Add New</a>
+				    	<a class="btn btn-primary " href="${pageContext.request.contextPath }/admin/PrepareInsertUtenteServlet">Add New</a>
 				    
 				        <div class='table-responsive'>
 				            <table class='table table-striped ' >
@@ -69,8 +69,8 @@
 											<td>${utenteItem.username }</td>
 											<td><fmt:formatDate type = "date" value = "${utenteItem.dateCreated }" /></td>
 											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/ExecuteVisualizzaUtenteServlet?idUtente=${utenteItem.id}">Visualizza</a>
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/PrepareUpdateUtenteServlet?idUtente=${utenteItem.id}">Edit</a>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/admin/ExecuteVisualizzaUtenteServlet?idUtente=${utenteItem.id}">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/admin/PrepareUpdateUtenteServlet?idUtente=${utenteItem.id}">Edit</a>
 												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/admin/PrepareDeleteUtenteServlet?idUtente=${utenteItem.id}">Delete</a>
 											</td>
 										</tr>
