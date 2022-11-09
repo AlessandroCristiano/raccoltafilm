@@ -98,7 +98,6 @@ public class RegistaDAOImpl implements RegistaDAO {
 		}
 
 		return typedQuery.getResultList();
-
 	}
 
 	@Override

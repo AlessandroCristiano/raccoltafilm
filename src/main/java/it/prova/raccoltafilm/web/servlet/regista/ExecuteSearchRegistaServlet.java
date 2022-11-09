@@ -29,6 +29,7 @@ public class ExecuteSearchRegistaServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		String nomeParam = request.getParameter("nome");
 		String cognomeParam = request.getParameter("cognome");
 		String nickNameParam = request.getParameter("nickName");

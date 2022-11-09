@@ -41,7 +41,7 @@ public class PrepareDeleteRegistaServlet extends HttpServlet {
 		
 		try {
 			Regista registaInstance = registaService.caricaSingoloElemento(Long.parseLong(idRegistaParam));
-
+			
 			if (registaInstance == null) {
 				request.setAttribute("errorMessage", "Elemento non trovato.");
 				request.getRequestDispatcher("ExecuteListRegistaServlet?operationResult=NOT_FOUND").forward(request,
